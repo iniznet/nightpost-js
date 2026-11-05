@@ -4,10 +4,10 @@ import { isTransportOutage } from '../src/outage.js';
 import { currentTrace, mintTrace, recordTraceSpan, tracePropagationHeaders } from '../src/trace.js';
 import { collapseNodes } from '../src/profile.js';
 
-describe('env dual-read', () => {
-  it('NIGHTPOST_* wins over MONITOR_*', () => {
+describe('env namespace', () => {
+  it('NIGHTPOST_* is the only namespace', () => {
     expect(nv({ NIGHTPOST_URL: 'https://a', MONITOR_URL: 'https://b' }, 'URL')).toBe('https://a');
-    expect(nv({ MONITOR_URL: 'https://b' }, 'URL')).toBe('https://b');
+    expect(nv({ MONITOR_URL: 'https://b' }, 'URL')).toBeUndefined();
     expect(nv({}, 'URL')).toBeUndefined();
   });
 
@@ -20,7 +20,8 @@ describe('env dual-read', () => {
 
   it('the reporter is inert without a URL', () => {
     expect(monitorEnabled({})).toBe(false);
-    expect(monitorEnabled({ MONITOR_URL: 'http://m' })).toBe(true);
+    expect(monitorEnabled({ MONITOR_URL: 'http://m' })).toBe(false);
+    expect(monitorEnabled({ NIGHTPOST_URL: 'http://m' })).toBe(true);
   });
 
   it('sample rate 0 never samples, 1 always does', () => {

@@ -6,9 +6,10 @@
  * here ever blocks or breaks a request — with the URL unset the module is
  * inert.
  *
- * Dual-read (iniznet/fenrirealm-tracker#278 §3): the product namespace
- * NIGHTPOST_* wins, the original MONITOR_* leg keeps working, so an existing
- * install never needs a coordinated env cutover.
+ * One namespace: the producer reads NIGHTPOST_* only. The MONITOR_* fallback
+ * was removed with the 0.2.0 breaking migration (iniznet/fenrirealm-tracker#564),
+ * so an install that still sets the old names must rename them in its deploy
+ * window — every sender stays inert until it does.
  */
 
 export type EnvLike = Record<string, string | undefined>;
@@ -23,7 +24,7 @@ export interface MonitorConfig {
 }
 
 export function nv(env: EnvLike, name: string): string | undefined {
-	return env[`NIGHTPOST_${name}`] ?? env[`MONITOR_${name}`];
+	return env[`NIGHTPOST_${name}`];
 }
 
 export function readConfig(env: EnvLike): MonitorConfig {
