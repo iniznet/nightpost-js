@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
  *
  * The Node inspector Session is started before `resolve()` and stopped after
  * the response is built, ONLY on the deep-profiled fraction of requests
- * (MONITOR_PROFILE_RATE, default 0.5%) — never blanket-on. Nodes are folded
+ * (NIGHTPOST_PROFILE_RATE, default 0.5%) — never blanket-on. Nodes are folded
  * into per-function self time exactly like the xhprof ingest folds edges:
  * hitCount is self samples; self_ms is allocated from the profile's total
  * duration proportionally to hitCount.

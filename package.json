@@ -1,6 +1,6 @@
 {
   "name": "@nightpost/js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Environment-agnostic core of the Nightpost JS reporter: config, transport, trace context, outage classification and the V8 sampling profiler.",
   "license": "MIT",
   "type": "module",
